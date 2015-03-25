@@ -8,11 +8,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(NavMeshAgent))]
 public class AgressiveNpcActor : NpcActor
 {
-
-    /// <summary>
-    /// A list of enemyFactions
-    /// </summary>
-    public List<Faction> enemyList;
+    private Actor targetActor = null;
 
     /// <summary>
     /// This method is called by unity upon loading the object.
@@ -20,11 +16,6 @@ public class AgressiveNpcActor : NpcActor
     public override void Start()
     {
         base.Start();
-        if (enemyList == null)
-        {
-            Debug.LogWarning("Actor " + name + " has started without enemy factions, this is inefficient please set this in the editor.");
-            enemyList = new List<Faction>();
-        }
     }
 
     /// <summary>
@@ -65,7 +56,14 @@ public class AgressiveNpcActor : NpcActor
 
         if (enemyActor != null)
         {
-            SetNewTarget(enemyActor.transform.position);
+            if (targetActor == enemyActor)
+            {
+                //Do nothing, we have the correct target.
+            }
+            else
+            {
+                SetNewTarget(enemyActor.transform.position);
+            }
         }
     }
 }
